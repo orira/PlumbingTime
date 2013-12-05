@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LengthActivity">
+
+    <ImageView
+        android:id="@+id/imageview_pipe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_pipe_size"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/label_pipe_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_x_large"
+        android:background="@color/black_transparent"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_below="@id/imageview_pipe"
+        android:visibility="invisible"
+        android:layout_marginTop="-30dp"/>
+
+    <LinearLayout
+        android:id="@+id/container_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_standard"
+        android:layout_marginTop="@dimen/padding_standard_x2"
+        android:orientation="vertical"
+        android:layout_below="@id/label_pipe_size"
+        android:alpha="0">
+
+        <TextView
+            android:id="@+id/label_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:gravity="center"
+            android:text="@string/label_default_length_prompt" />
+
+        <SeekBar
+            android:id="@+id/seekbar_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_standard_x2"
+            android:paddingLeft="@dimen/padding_standard"
+            android:paddingRight="@dimen/padding_standard" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_gradient_calculation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_calculation"
+        android:layout_marginTop="@dimen/padding_standard_x2"
+        android:layout_below="@id/container_seekbar"
+        android:layout_marginLeft="@dimen/padding_standard"
+        android:layout_marginRight="@dimen/padding_standard"
+        android:visibility="gone" />
+</RelativeLayout>

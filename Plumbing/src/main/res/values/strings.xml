@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PlumbingTime</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="label_default_length_prompt">Scroll to select length</string>
+    <string name="button_calculation">Calculation</string>
+
+    <string-array name="length_activity_options">
+        <item>millimetre</item>
+        <item>centimetre</item>
+        <item>metre</item>
+    </string-array>
+
+</resources>
