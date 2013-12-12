@@ -5,15 +5,43 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Actionbar Titles -->
+    <string name="title_actionbar_main_activity">Select a pipe size</string>
+    <string name="title_actionbar_calculation_activity">Calculations</string>
+
+    <!-- Length Activity -->
+    <string name="actionbar_spinner_title">Metric Selected</string>
     <string name="label_default_seekbar_prompt">Scroll to select length</string>
     <string name="label_default_edittext_prompt">Enter your required length</string>
     <string name="button_calculation">Calculate</string>
-    <string name="actionbar_spinner_title">Metric Selected</string>
+
+    <plurals name="label_millimetre">
+        <item quantity="one"> " millimetre"</item>
+        <item quantity="other"> " millimetres"</item>
+    </plurals>
+
+    <plurals name="label_centimetre">
+        <item quantity="one"> " centimetre"</item>
+        <item quantity="other"> " centimetres"</item>
+    </plurals>
+
+    <plurals name="label_metre">
+        <item quantity="one"> " metre"</item>
+        <item quantity="other"> " metres"</item>
+    </plurals>
+
 
     <string-array name="length_activity_options">
         <item>Millimetre</item>
         <item>Centimetre</item>
         <item>Metre</item>
     </string-array>
+
+    <!-- Calculation Activity -->
+    <string name="label_suffix">ml</string>
+    <string name="label_base_gradient">BASE GRADIENT</string>
+    <string name="label_total_clips">TOTAL CLIPS</string>
+    <string name="label_total_gradient">TOTAL GRADIENT</string>
+    <string name="label_final_gradient">FINAL GRADIENT</string>
 
 </resources>

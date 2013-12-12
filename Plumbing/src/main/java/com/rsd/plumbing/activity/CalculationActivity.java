@@ -19,8 +19,7 @@ import butterknife.InjectView;
 public class CalculationActivity extends Activity {
 
     private final String TAG = "CalculationActivity";
-    private final String TITLE = "Calculations";
-    private final String LABEL_SUFFIX = " ml";
+    private String LABEL_SUFFIX;
 
     private final int mMinimumLengthBetweenClips = 500;
     private int mBaseGradient = 0;
@@ -49,8 +48,13 @@ public class CalculationActivity extends Activity {
         setContentView(R.layout.activity_calculation);
         ButterKnife.inject(this);
 
+        setupStringResources();
         setupActionBar();
         setupView();
+    }
+
+    private void setupStringResources() {
+        LABEL_SUFFIX = getString(R.string.label_suffix);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class CalculationActivity extends Activity {
     }
 
     private void setupActionBar() {
-        getActionBar().setTitle(TITLE);
+        getActionBar().setTitle(getString(R.string.title_actionbar_calculation_activity));
         getActionBar().setBackgroundDrawable(null);
     }
 

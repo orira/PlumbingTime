@@ -5,7 +5,7 @@
         android:id="@+id/actionbar_spinner_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_medium"
         android:padding="@dimen/padding_standard"
         android:textColor="@color/white"
         android:typeface="sans" />

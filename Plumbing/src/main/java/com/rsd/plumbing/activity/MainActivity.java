@@ -29,7 +29,6 @@ import butterknife.OnClick;
 public class MainActivity extends Activity implements PipesCallBack {
 
     private final String TAG = "MainActivity";
-    private static final String TITLE = "Select a pipe size";
     private MainActivity mCurrentContext;
 
     @InjectView(R.id.gridview_pipesize) GridView mGridView;
@@ -71,7 +70,7 @@ public class MainActivity extends Activity implements PipesCallBack {
     }
 
     private void setupActionBar() {
-        getActionBar().setTitle(TITLE);
+        getActionBar().setTitle(getString(R.string.title_actionbar_main_activity));
         getActionBar().setBackgroundDrawable(null);
     }
 

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -40,12 +41,8 @@ import butterknife.OnClick;
 public class LengthActivity extends Activity {
 
     private final String TAG = "LengthActivity";
-    private static final String TITLE = "";
     private static final int DEFAULT_ANIMATION_LENGTH = 300;
     private static final int SHORT_ANIMATION_LENGTH = 150;
-    private static final String LABEL_MILLIMETRE = " millimetres";
-    private static final String LABEL_CENTIMETRE = " centimetres";
-    private static final String LABEL_METRE = " metres";
 
     @InjectView(R.id.imageview_pipe)                ImageView mImageView;
     @InjectView(R.id.label_pipe_size)               TextView mLabelPipeSize;
@@ -157,7 +154,7 @@ public class LengthActivity extends Activity {
     private void setupActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setBackgroundDrawable(null);
-        actionBar.setTitle(TITLE);
+        actionBar.setTitle("");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -277,20 +274,21 @@ public class LengthActivity extends Activity {
     }
 
     private String getLabelSuffix() {
-        if (mLengthMetric == null)
-            return LABEL_MILLIMETRE;
+//        if (mLengthMetric == null)
+//            return LABEL_MILLIMETRE;
 
+        Resources resources =  getResources();
         String suffix = "";
 
         switch (mLengthMetric) {
             case MILLIMETRES:
-                suffix = LABEL_MILLIMETRE;
+                suffix = resources.getQuantityString(R.plurals.label_millimetre, (int) mPipeLength);
                 break;
             case CENTIMETRES:
-                suffix = LABEL_CENTIMETRE;
+                suffix = resources.getQuantityString(R.plurals.label_centimetre, (int) mPipeLength);
                 break;
             case METRES:
-                suffix = LABEL_METRE;
+                suffix = resources.getQuantityString(R.plurals.label_metre, (int) mPipeLength);
                 break;
         }
 
@@ -352,9 +350,9 @@ public class LengthActivity extends Activity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (progress != 0) {
+                mPipeLength = progress;
                 displayCalculateButton();
                 mLabelLength.setText(progress + getLabelSuffix());
-                mPipeLength = progress;
             } else {
                 mLabelLength.setText(getString(R.string.label_default_seekbar_prompt));
                 hideCalculateButton();
@@ -374,7 +372,9 @@ public class LengthActivity extends Activity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             if (s.length() > 0) {
+                mPipeLength = Float.parseFloat(s.toString());
                 mLabelLength.setText(s + getLabelSuffix());
                 mPipeLength = Float.parseFloat(s.toString());
                 displayCalculateButton();

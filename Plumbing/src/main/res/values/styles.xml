@@ -15,6 +15,11 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="match_parent_height">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
     <style name="wrap_parent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -40,5 +45,45 @@
         <item name="android:padding">10dip</item>
     </style>
 
+    <style name="image_placeholder" parent="match_parent_height">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+
+
+    <!-- Text Labels -->
+    <style name="label_xx_large" parent="match_parent_width">
+        <item name="android:textSize">@dimen/text_size_xx_large</item>
+    </style>
+
+    <style name="label_large" parent="match_parent_width">
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="label_xx_large_centred" parent="label_xx_large">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="label_large_centred" parent="label_large">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="label_large_centred_aligned_parent_top" parent="label_large_centred">
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+
+    <style name="label_placeholder" parent="label_large_centred_aligned_parent_top">
+        <item name="android:layout_toRightOf">@id/imageview_placeholder</item>
+        <item name="android:layout_marginLeft">@dimen/padding_standard_half</item>
+    </style>
+
+    <!-- Calculate Activity -->
+    <style name="row_placeholder" parent="match_parent">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginBottom">@dimen/padding_standard</item>
+    </style>
 
 </resources>
