@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="@dimen/text_size_medium"
-    android:padding="@dimen/padding_standard_half"
-    android:textColor="@color/white" />
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/actionbar_spinner_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_large"
+        android:padding="@dimen/padding_standard"
+        android:textColor="@color/white"
+        android:typeface="sans" />
+
+

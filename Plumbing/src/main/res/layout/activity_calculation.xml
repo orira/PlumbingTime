@@ -3,20 +3,163 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LengthActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_standard"
+    android:background="@drawable/background_gradient_grey">
+
+    <!-- Base Gradient -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/padding_standard">
+
+        <ImageView
+            android:id="@+id/imageview_base_gradient"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/base_gradient"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/label_clip_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_base_gradient"
+            android:layout_marginLeft="@dimen/padding_standard_half"
+            android:text="BASE GRADIENT" />
+
+        <TextView
+            android:id="@+id/clip_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xx_large"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_base_gradient"
+            android:layout_below="@id/label_clip_gradient" />
+    </RelativeLayout>
+
+    <!-- Clips -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/padding_standard">
+
+        <ImageView
+            android:id="@+id/imageview_total_clips"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/clip"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/label_number_of_clips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_total_clips"
+            android:layout_marginLeft="@dimen/padding_standard_half"
+            android:text="TOTAL CLIPS" />
+
+        <TextView
+            android:id="@+id/number_of_clips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xx_large"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_total_clips"
+            android:layout_below="@id/label_number_of_clips" />
+    </RelativeLayout>
+
+    <!-- Total Gradient -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/padding_standard">
+
+        <ImageView
+            android:id="@+id/imageview_total_gradient"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/gradient"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/label_calculated_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_total_gradient"
+            android:layout_marginLeft="@dimen/padding_standard_half"
+            android:text="TOTAL GRADIENT" />
+
+        <TextView
+            android:id="@+id/calculated_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xx_large"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_total_gradient"
+            android:layout_below="@id/label_calculated_gradient" />
+    </RelativeLayout>
+
+    <!-- Final Gradient -->
+    <RelativeLayout
+        android:id="@+id/container_final_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/padding_standard"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imageview_final_gradient"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/final_gradient"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/label_final_clip_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_final_gradient"
+            android:layout_marginLeft="@dimen/padding_standard_half"
+            android:text="FINAL GRADIENT" />
+
+        <TextView
+            android:id="@+id/final_clip_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_xx_large"
+            android:gravity="center"
+            android:layout_toRightOf="@id/imageview_final_gradient"
+            android:layout_below="@id/label_final_clip_gradient" />
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/label_calculated_gradient"
+        android:id="@+id/label_final_clip_gradient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Testing"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_large"
-        android:textColor="@color/black_transparent"
-        />
-
-    <TextView
-        android:id="@+id/label_number_of_clips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/text_size_large" />
 </LinearLayout>

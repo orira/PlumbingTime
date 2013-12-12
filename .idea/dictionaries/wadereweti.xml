@@ -2,6 +2,7 @@
   <dictionary name="wadereweti">
     <words>
       <w>butterknife</w>
+      <w>edittext</w>
       <w>gridview</w>
       <w>jakewharton</w>
       <w>pipesize</w>

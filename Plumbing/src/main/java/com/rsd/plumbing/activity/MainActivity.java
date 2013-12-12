@@ -72,6 +72,7 @@ public class MainActivity extends Activity implements PipesCallBack {
 
     private void setupActionBar() {
         getActionBar().setTitle(TITLE);
+        getActionBar().setBackgroundDrawable(null);
     }
 
     private void setupGridView() {
@@ -95,7 +96,10 @@ public class MainActivity extends Activity implements PipesCallBack {
                 bundle.putInt(Constants.VIEW_LEFT, screenLocation[0]);
                 bundle.putInt(Constants.VIEW_TOP, screenLocation[1]);
                 bundle.putInt(Constants.PIPE_POSTION, position);
-                bundle.putString(Constants.PIPE_SIZE, pipeSize);
+                bundle.putString(Constants.PIPE_SIZE_LABEL, pipeSize);
+
+                String pipeSizeStringValue = view.findViewById(R.id.label_pipe_size).getContentDescription().toString();
+                bundle.putInt(Constants.PIPE_SIZE, Integer.parseInt(pipeSizeStringValue));
 
                 return bundle;
             }

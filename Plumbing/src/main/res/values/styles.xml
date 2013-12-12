@@ -10,15 +10,35 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="match_parent_width">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="wrap_parent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="transparent">
-        <!--<item name="android:windowNoTitle">true</item>-->
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    <style name="label_translucent_background" parent="match_parent_width">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_xx_large</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/translucent_black</item>
     </style>
+
+    <style name="buttonStyleSeagull" parent="@android:style/Widget.Button">
+        <item name="android:textSize">@dimen/text_size_x_large</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.6</item>
+        <item name="android:background">@drawable/button_seagull</item>
+        <item name="android:padding">10dip</item>
+    </style>
+
 
 </resources>

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LengthActivity">
+    tools:context=".LengthActivity"
+    android:background="@drawable/background_gradient_grey">
 
     <ImageView
         android:id="@+id/imageview_pipe"
@@ -12,15 +13,10 @@
 
     <TextView
         android:id="@+id/label_pipe_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_x_large"
-        android:background="@color/black_transparent"
-        android:textColor="@color/white"
-        android:gravity="center"
+        style="@style/label_translucent_background"
         android:layout_below="@id/imageview_pipe"
         android:visibility="invisible"
-        android:layout_marginTop="-30dp"/>
+        android:layout_marginTop="-35dp"/>
 
     <LinearLayout
         android:id="@+id/container_seekbar"
@@ -36,9 +32,9 @@
             android:id="@+id/label_length"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_x_large"
             android:gravity="center"
-            android:text="@string/label_default_length_prompt" />
+            android:text="@string/label_default_seekbar_prompt" />
 
         <SeekBar
             android:id="@+id/seekbar_length"
@@ -48,6 +44,18 @@
             android:paddingLeft="@dimen/padding_standard"
             android:paddingRight="@dimen/padding_standard" />
 
+        <EditText
+            android:id="@+id/edittext_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_x_large"
+            android:layout_marginTop="@dimen/padding_standard_x2"
+            android:paddingLeft="@dimen/padding_standard"
+            android:paddingRight="@dimen/padding_standard"
+            android:visibility="gone"
+            android:inputType="numberDecimal"
+            android:maxLength="6" />
+
     </LinearLayout>
 
     <Button
@@ -55,9 +63,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_calculation"
-        android:layout_marginTop="@dimen/padding_standard_x2"
+        android:layout_marginTop="@dimen/padding_standard_x3"
         android:layout_below="@id/container_seekbar"
         android:layout_marginLeft="@dimen/padding_standard"
         android:layout_marginRight="@dimen/padding_standard"
-        android:visibility="gone" />
+        android:visibility="gone"
+        style="@style/buttonStyleSeagull" />
 </RelativeLayout>

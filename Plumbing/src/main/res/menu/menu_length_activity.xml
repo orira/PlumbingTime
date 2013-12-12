@@ -3,7 +3,7 @@
     tools:context=".MainActivity" >
 
     <item
-        android:id="@+id/toggle_input"
+        android:id="@+id/item_toggle_input"
         android:title="toggle_input"
         android:orderInCategory="0"
         android:showAsAction="always"

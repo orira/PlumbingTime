@@ -53,7 +53,7 @@ public class PipeAdapter extends BaseAdapter {
         Pipe pipe = mPipes.get(position);
 
         if (convertView == null) {
-            convertView = mLayoutInflater.inflate(R.layout.gridview_pipe_item, null);
+            convertView = mLayoutInflater.inflate(R.layout.item_gridview_pipe, null);
         }
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageview_pipe);
@@ -61,6 +61,7 @@ public class PipeAdapter extends BaseAdapter {
 
         TextView textView = (TextView) convertView.findViewById(R.id.label_pipe_size);
         textView.setText(getLabel(pipe.size));
+        textView.setContentDescription(Integer.toString(pipe.size));
         textView.setTypeface(TypefaceUtil.getRobotoThin(mContext));
 
         return convertView;

@@ -2,27 +2,33 @@ package com.rsd.plumbing.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.rsd.plumbing.R;
+import com.rsd.plumbing.adapter.ActionbarSpinnerAdapter;
 import com.rsd.plumbing.util.BitmapUtil;
 import com.rsd.plumbing.util.Constants;
-import com.rsd.plumbing.util.DisplayUtil;
 import com.rsd.plumbing.util.TransitionUtil;
 import com.rsd.plumbing.util.TypefaceUtil;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,27 +52,27 @@ public class LengthActivity extends Activity {
     @InjectView(R.id.container_seekbar)             LinearLayout mContainer;
     @InjectView(R.id.label_length)                  TextView mLabelLength;
     @InjectView(R.id.seekbar_length)                SeekBar mSeekBar;
+    @InjectView(R.id.edittext_length)               EditText mEditText;
     @InjectView(R.id.button_gradient_calculation)   Button mButton;
 
     private int mOriginalHeight;
     private int mOriginalWidth;
     private int mOriginalLeft;
     private int mOriginalTop;
-    private String mPipeSize;
+    private String mPipeSizeLabel;
+    private int mPipeSizeValue;
     private LENGTH_METRIC mLengthMetric;
-
-    private enum LENGTH_METRIC {
-        MILLIMETRES, CENTIMETRES, METRES
-    }
 
     private int mLeftDelta;
     private int mTopDelta;
     private float mWidthScale;
     private float mHeightScale;
 
-    private int mActivityWidth;
+    private float mPipeLength;
 
-    private int mPipeLength;
+    private enum LENGTH_METRIC {
+        MILLIMETRES, CENTIMETRES, METRES
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,44 +91,80 @@ public class LengthActivity extends Activity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void setupActionBar() {
-        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.length_activity_options, R.layout.item_actionbar_spinner);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_toggle_input:
+                toggleInputMode();
+                hideCalculateButton();
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        ActionBar.OnNavigationListener navigationListener = new ActionBar.OnNavigationListener() {
+    private void toggleInputMode() {
+        View visibleView;
+        View alphaView;
+        String labelPrompt;
+
+        if (mSeekBar.getVisibility() == View.VISIBLE) {
+            visibleView = mEditText;
+            alphaView = mSeekBar;
+            labelPrompt = getString(R.string.label_default_edittext_prompt);
+        } else {
+            visibleView = mSeekBar;
+            alphaView = mEditText;
+            labelPrompt = getString(R.string.label_default_seekbar_prompt);
+        }
+
+        runToggleInputAnimation(visibleView, alphaView, labelPrompt);
+    }
+
+    private void runToggleInputAnimation(final View visibleView, final View alphaView, final String labelPrompt) {
+        visibleView.animate().alpha(1).withStartAction(new Runnable() {
             @Override
-            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                switch (itemPosition) {
-                    case 0:
-                        mLengthMetric = LENGTH_METRIC.MILLIMETRES;
-                        break;
-                    case 1:
-                        mLengthMetric = LENGTH_METRIC.CENTIMETRES;
-                        break;
-                    case 2:
-                        mLengthMetric = LENGTH_METRIC.METRES;
-                        break;
-                }
-
-                if (!mLabelLength.getText().toString().equals(getString(R.string.label_default_length_prompt))) {
-                    mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(0).withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLabelLength.setText(mPipeLength + getLabelSuffix());
-                            mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(1);
-                        }
-                    });
-                }
-
-                return true;
+            public void run() {
+                visibleView.setVisibility(View.VISIBLE);
+                alphaView.animate().alpha(0);
+                alphaView.setVisibility(View.GONE);
             }
-        };
+        });
 
+        mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(0).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mLabelLength.setText(labelPrompt);
+                mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(1);
+            }
+        });
 
+        if (visibleView instanceof SeekBar) {
+            mSeekBar.setProgress(0);
+            mEditText.removeTextChangedListener(textWatcher);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+        } else {
+            mEditText.setText("");
+            mEditText.addTextChangedListener(textWatcher);
+            mEditText.setFocusableInTouchMode(true);
+            mEditText.requestFocus();
+        }
+    }
 
+    private void setupActionBar() {
         ActionBar actionBar = getActionBar();
+        actionBar.setBackgroundDrawable(null);
         actionBar.setTitle(TITLE);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        actionBar.setListNavigationCallbacks(spinnerAdapter, navigationListener);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        List<String> options = Arrays.asList(getResources().getStringArray(R.array.length_activity_options));
+        ActionbarSpinnerAdapter adapter = new ActionbarSpinnerAdapter(this, options);
+
+        actionBar.setListNavigationCallbacks(adapter, navigationListener);
     }
 
     private void setupView(Bundle savedInstanceState) {
@@ -132,9 +174,8 @@ public class LengthActivity extends Activity {
         mOriginalWidth = bundle.getInt(Constants.VIEW_WIDTH);
         mOriginalLeft = bundle.getInt(Constants.VIEW_LEFT);
         mOriginalTop = bundle.getInt(Constants.VIEW_TOP);
-        mPipeSize = bundle.getString(Constants.PIPE_SIZE);
-
-        mActivityWidth = DisplayUtil.getWindowWidth(getWindowManager().getDefaultDisplay());
+        mPipeSizeLabel = bundle.getString(Constants.PIPE_SIZE_LABEL);
+        mPipeSizeValue = bundle.getInt(Constants.PIPE_SIZE);
 
         if (savedInstanceState == null) {
             runScaleAnimation();
@@ -143,17 +184,17 @@ public class LengthActivity extends Activity {
         }
 
         mLabelPipeSize.setTypeface(TypefaceUtil.getRobotoThin(this));
-
         mImageView.setImageBitmap(BitmapUtil.getBitMap(pipePosition, this));
+        mLabelLength.setTypeface(TypefaceUtil.getRobotoLight(this));
         mSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-        //mButton.setX(-mActivityWidth);
         mButton.setAlpha(0);
+        mButton.setTypeface(TypefaceUtil.getRobotoLight(this));
     }
 
     private void runBodyAnimation() {
         mLabelPipeSize.setAlpha(0);
         mLabelPipeSize.setVisibility(View.VISIBLE);
-        mLabelPipeSize.setText(mPipeSize);
+        mLabelPipeSize.setText(mPipeSizeLabel);
         mLabelPipeSize.animate().setDuration(DEFAULT_ANIMATION_LENGTH).alpha(1);
 
         mContainer.animate().setDuration(DEFAULT_ANIMATION_LENGTH).alpha(1);
@@ -188,7 +229,7 @@ public class LengthActivity extends Activity {
                 mImageView.setTranslationX(mLeftDelta);
                 mImageView.setTranslationY(mTopDelta);
 
-                //Animate scaled down view to current size and position
+                // Animate scaled down view to current size and position
                 mImageView.animate().setDuration(DEFAULT_ANIMATION_LENGTH)
                         .scaleX(1)
                         .scaleY(1)
@@ -197,14 +238,8 @@ public class LengthActivity extends Activity {
                     @Override
                     public void run() {
 
+                        // Animate the rest of the  view in
                         runBodyAnimation();
-
-                        /*mLabelPipeSize.setAlpha(0);
-                        mLabelPipeSize.setVisibility(View.VISIBLE);
-                        mLabelPipeSize.setText(mPipeSize);
-                        mLabelPipeSize.animate().setDuration(DEFAULT_ANIMATION_LENGTH).alpha(1);
-
-                        mContainer.animate().setDuration(DEFAULT_ANIMATION_LENGTH).alpha(1);*/
                     }
                 });
             }
@@ -216,20 +251,22 @@ public class LengthActivity extends Activity {
         Intent intent = new Intent(this, CalculationActivity.class);
 
         Bundle bundle = TransitionUtil.returnSlideInBottomScaleAndAlphaOut(this);
-        bundle.putString(Constants.PIPE_SIZE, mPipeSize);
-        bundle.putInt(Constants.PIPE_LENGTH, calculateLength());
+        bundle.putInt(Constants.PIPE_SIZE, mPipeSizeValue);
+        bundle.putFloat(Constants.PIPE_LENGTH, calculateLength());
+
+        intent.putExtra(Constants.BUNDLE_CALCULATION, bundle);
 
         startActivity(intent, bundle);
     }
 
-    private int calculateLength() {
-        int length;
+    private float calculateLength() {
+        float length;
         switch (mLengthMetric) {
             case CENTIMETRES:
-                length = mPipeLength / 10;
+                length = mPipeLength * 10;
                 break;
             case METRES:
-                length = mPipeLength / 100;
+                length = mPipeLength * 1000;
                 break;
             default:
                 length = mPipeLength;
@@ -255,12 +292,61 @@ public class LengthActivity extends Activity {
             case METRES:
                 suffix = LABEL_METRE;
                 break;
-            default:
-                suffix = LABEL_MILLIMETRE;
         }
 
         return suffix;
     }
+
+    private void displayCalculateButton() {
+        if (mButton.getVisibility() == View.GONE) {
+            mButton.setVisibility(View.VISIBLE);
+            mButton.animate().alpha(1);
+        }
+    }
+
+    private void hideCalculateButton() {
+
+        mButton.animate().alpha(0).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                mButton.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    ActionBar.OnNavigationListener navigationListener = new ActionBar.OnNavigationListener() {
+        @Override
+        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+            switch (itemPosition) {
+                case 0:
+                    mLengthMetric = LENGTH_METRIC.MILLIMETRES;
+                    break;
+                case 1:
+                    mLengthMetric = LENGTH_METRIC.CENTIMETRES;
+                    break;
+                case 2:
+                    mLengthMetric = LENGTH_METRIC.METRES;
+                    break;
+            }
+
+            float decimalValue = mPipeLength % 1;
+            String editTextValue = decimalValue == 0 ? (int) mPipeLength + getLabelSuffix() : mPipeLength + getLabelSuffix();
+            final String constructedString = mSeekBar.getVisibility() == View.VISIBLE ? (int) mPipeLength + getLabelSuffix() : editTextValue;
+
+            if (!mLabelLength.getText().toString().equals(getString(R.string.label_default_seekbar_prompt)) &&
+                !mLabelLength.getText().toString().equals(getString(R.string.label_default_edittext_prompt))) {
+                mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(0).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLabelLength.setText(constructedString);
+                        mLabelLength.animate().setDuration(SHORT_ANIMATION_LENGTH).alpha(1);
+                    }
+                });
+            }
+
+            return true;
+        }
+    };
 
     SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -270,7 +356,7 @@ public class LengthActivity extends Activity {
                 mLabelLength.setText(progress + getLabelSuffix());
                 mPipeLength = progress;
             } else {
-                mLabelLength.setText(getString(R.string.label_default_length_prompt));
+                mLabelLength.setText(getString(R.string.label_default_seekbar_prompt));
                 hideCalculateButton();
             }
         }
@@ -280,29 +366,25 @@ public class LengthActivity extends Activity {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {}
+    };
 
-        private void displayCalculateButton() {
-            if (mButton.getVisibility() == View.GONE) {
-                mButton.setVisibility(View.VISIBLE);
-                //mButton.animate().translationX(0);
-                mButton.animate().alpha(1);
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() > 0) {
+                mLabelLength.setText(s + getLabelSuffix());
+                mPipeLength = Float.parseFloat(s.toString());
+                displayCalculateButton();
+            } else {
+                mLabelLength.setText(getString(R.string.label_default_edittext_prompt));
+                hideCalculateButton();
             }
         }
 
-        private void hideCalculateButton() {
-            /*mButton.animate().translationX(-mActivityWidth).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    mButton.setVisibility(View.INVISIBLE);
-                }
-            });*/
-
-            mButton.animate().alpha(0).withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    mButton.setVisibility(View.GONE);
-                }
-            });
-        }
+        @Override
+        public void afterTextChanged(Editable s) {}
     };
 }

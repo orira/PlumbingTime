@@ -12,12 +12,7 @@
 
     <TextView
         android:id="@+id/label_pipe_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_x_large"
-        android:background="@color/black_transparent"
-        android:textColor="@color/white"
-        android:layout_alignParentBottom="true"
-        android:gravity="center" />
+        style="@style/label_translucent_background"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

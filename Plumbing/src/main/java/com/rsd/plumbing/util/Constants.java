@@ -10,6 +10,7 @@ public class Constants {
     public static final String VIEW_LEFT = "viewLeft";
     public static final String VIEW_TOP = "viewTop";
     public static final String BUNDLE_PIPE = "bundlePipe";
+    public static final String PIPE_SIZE_LABEL = "pipeSizeLabel";
     public static final String PIPE_SIZE = "pipeSize";
     public static final String BUNDLE_CALCULATION = "bundleCalculation";
     public static final String PIPE_LENGTH = "pipeLength";
